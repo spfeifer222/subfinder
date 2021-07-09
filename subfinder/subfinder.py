@@ -14,7 +14,7 @@ from .subsearcher import get_subsearcher, exceptions
 
 
 class Pool(object):
-    """ 模拟线程池，实际上还是同步执行代码
+    """ Simulating a thread pool or actually synchronizing execution code
     """
 
     def __init__(self, size):
@@ -28,7 +28,7 @@ class Pool(object):
 
 
 class SubFinder(object):
-    """ 字幕查找器
+    """ Subtitle Search Tool.
     """
 
     DEFAULT_VIDEO_EXTS = {'.mkv', '.mp4', '.ts', '.avi', '.wmv'}
@@ -87,7 +87,7 @@ class SubFinder(object):
         return False
 
     def _has_subtitles(self, f):
-        """ 判断f是否已经有了本地字幕
+        """ Determine If f Already Has Local Captioning
         """
         dirname = os.path.dirname(f)
         basename = os.path.basename(f)
@@ -107,7 +107,7 @@ class SubFinder(object):
         return False
 
     def _filter_path(self, path):
-        """ 筛选出 path 目录下所有的视频文件
+        """ Filter all video files in path.
         """
         if self._is_videofile(path):
             if self._fnmatch(os.path.basename(path)):
@@ -140,7 +140,7 @@ class SubFinder(object):
                 dirs.pop(i)
 
     def _init_session(self):
-        """ 初始化 requests.Session
+        """ initialization of requests.Session
         """
         self.session = requests.Session()
         self.session.mount('http://', adapter=requests.adapters.HTTPAdapter(
