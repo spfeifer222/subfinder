@@ -167,25 +167,25 @@ class SubFinder(object):
         self.logger.addHandler(sh)
 
     def _download(self, videofile):
-        """ 调用 SubSearcher 搜索并下载字幕
+        """ Call SubSearcher searching for and downloading subtitles
         """
         basename = os.path.basename(videofile)
 
         subinfos = []
         for subsearcher_cls in self.subsearcher:
             subsearcher = subsearcher_cls(self, api_urls=self.api_urls)
-            self.logger.info('{0}：开始使用 {1} 搜索字幕'.format(basename, subsearcher))
+            self.logger.info('{0}：Start using {1} to search subtitles'.format(basename, subsearcher))
             try:
                 subinfos = subsearcher.search_subs(videofile, self.languages, self.exts, self.keyword)
             except Exception as e:
                 err = str(e)
                 if self.debug:
                     err = traceback.format_exc()
-                self.logger.error( '{}：搜索字幕发生错误： {}'.format(basename, err))
-                continue
+                self.logger.error( '{}：Error while searching subtitles： {}'.format(basename, err))
+                continueload
             if subinfos:
                 break
-        self.logger.info('{1}：找到 {0} 个字幕, 准备下载'.format( len(subinfos), basename))
+        self.logger.info('{1}：Found {0} subtitles, downltrnsoad'.format( len(subinfos), basename))
         for subinfo in subinfos:
             if isinstance(subinfo['subname'], (list, tuple)):
                 self._history[videofile].extend(subinfo['subname'])
