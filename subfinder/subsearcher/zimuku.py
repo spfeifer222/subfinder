@@ -7,7 +7,7 @@ from .subsearcher import HTMLSubSearcher, SubInfo
 
 
 class ZimukuSubSearcher(HTMLSubSearcher):
-    """ zimuku 字幕搜索器(https://www.zimuku.cn/)
+    """ zimuku Subtitle Search Utility (https://www.zimuku.cn/)
     """
     SUPPORT_LANGUAGES = ['zh_chs', 'zh_cht', 'en', 'zh_en']
     SUPPORT_EXTS = ['ass', 'srt']
@@ -72,22 +72,22 @@ class ZimukuSubSearcher(HTMLSubSearcher):
             ele_td = tr.find('td', class_='first')
             if not ele_td:
                 continue
-            # 字幕标题
+            # subtitle title
             subinfo['title'] = ele_td.a.get('title').strip()
-            # 链接
+            # link
             subinfo['link'] = ele_td.a.get('href').strip()
-            # 格式
+            # format
             ele_span_list = ele_td.select('span.label.label-info')
             for ele_span in ele_span_list:
                 ext = ele_span.get_text().strip()
                 ext = ext.lower()
                 ext = ext.split('/')
                 subinfo['exts'].extend(ext)
-            # 作者
+            # author
             ele_span = ele_td.select('span > a > span.label.label-danger')
             if ele_span:
                 subinfo['author'] = ele_span[0].get_text().strip()
-            # 语言
+            # language
             ele_imgs = tr.select('td.tac.lang > img')
             if ele_imgs:
                 for ele_img in ele_imgs:
@@ -97,14 +97,14 @@ class ZimukuSubSearcher(HTMLSubSearcher):
                     for l1, l2 in self.LANGUAGES_MAP.items():
                         if l1 in language:
                             subinfo['languages'].append(l2)
-            # 评分
+            # rating
             ele_i = tr.select('td.tac i.rating-star')
             if ele_i:
                 ele_i = ele_i[0]
                 m = re.search(r'(\d+)', ele_i.get('title'))
                 if m:
                     subinfo['rate'] = m.group(1)
-            # 下载次数
+            # number of downloads
             ele_td = tr.select('td.tac')
             if ele_td:
                 ele_td = ele_td[-1]
