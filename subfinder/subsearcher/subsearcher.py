@@ -297,7 +297,8 @@ class HTMLSubSearcher(BaseSubSearcher):
 
 
     def _extract(self, compressed_file):
-        """ 解压字幕文件，如果无法解压，则直接返回 compressed_file。
+        """ Extract a Subtitle file. If the file cannot be extracted, compressed_file
+        is immediately returned.
         """
         if not CompressedFile.is_compressed_file(compressed_file):
             return [compressed_file]
@@ -326,17 +327,17 @@ class HTMLSubSearcher(BaseSubSearcher):
         return subs
 
     def _download_subtitle(self, download_link, subtitle):
-        """ 下载字幕
-        videofile: 视频文件路径
-        sub_title: 字幕标题（文件名）
-        download_link: 下载链接
+        """ Subtitle download
+        videofile: video file path
+        sub_title: subtitle title (File Name)
+        download_link: download link
         """
         root = os.path.dirname(self.videofile)
         name = self.videoname
         ext = ''
         res = self.session.get(download_link, headers={'Referer': self.referer}, stream=True)
         self.referer = res.url
-        # 尝试从 Content-Disposition 中获取文件后缀名
+        # Trying to get the file suffix name from Content-Disposition header property
         content_disposition = res.headers.get('Content-Disposition', '')
         if content_disposition:
             _, params = cgi.parse_header(content_disposition)
@@ -345,14 +346,14 @@ class HTMLSubSearcher(BaseSubSearcher):
                 _, ext = os.path.splitext(filename)
                 ext = ext[1:]
         if ext == '':
-            # 尝试从url 中获取文件后缀名
+            # Trying to get the file suffix name from url
             p = urlparse.urlparse(res.url)
             path = p.path
             if path:
                 _, ext = os.path.splitext(path)
                 ext = ext[1:]
         if ext == '':
-            # 尝试从字幕标题中获取文件后缀名
+            # Trying to get the file suffix name from the title of the subtitle
             _, ext = os.path.splitext(subtitle)
             ext = ext[1:]
 
@@ -366,7 +367,7 @@ class HTMLSubSearcher(BaseSubSearcher):
 
     @classmethod
     def _gen_keyword(cls, videoinfo):
-        """ 获取关键词
+        """ Get keywords.
         """
         separators = ['.', ' ']
         keywords = []
