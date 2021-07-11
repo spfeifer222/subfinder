@@ -47,10 +47,10 @@ def mv_videos(path):
 
 
 def rename_subtitle(source, template):
-    """重命名字幕文件
-    @param source: 要重命名的字幕文件
-    @param template: 模板，例如：'Friends.S{season:02d}.E{episode:02d}.1080p.5.1Ch.BluRay.ReEnc-DeeJayAhmed.{}.{ext}'
-    支持的变量有：season, episode, language, ext
+    """Renames a subtitle file
+    @param source: subtitle file to rename
+    @param template: template, e.g. 'Friends.S{season:02d}.E{episode:02d}.1080p.5.1Ch.BluRay.ReEnc-DeeJayAhmed.{}.{ext}'
+    supported variables：season, episode, language, ext
     """
     root = os.path.dirname(source)
     old_name = os.path.basename(source)
