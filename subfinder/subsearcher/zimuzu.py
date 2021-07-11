@@ -10,7 +10,7 @@ from .subsearcher import HTMLSubSearcher, SubInfo
 
 
 class ZimuzuSubSearcher(HTMLSubSearcher):
-    """ zimuzu 字幕搜索器(http://www.zimuzu.io/)
+    """ zimuzu Subtitle Search Utility (http://www.zimuzu.io/)
     """
     SUPPORT_LANGUAGES = ['zh_chs', 'zh_cht', 'en', 'zh_en']
     SUPPORT_EXTS = ['ass', 'srt']
@@ -28,7 +28,7 @@ class ZimuzuSubSearcher(HTMLSubSearcher):
 
     def _parse_search_result_html(self, doc):
         """
-        解析搜索结果页面，返回字幕信息列表
+        Parse search results page and returns title information list.
         """
         result = []
         soup = bs4.BeautifulSoup(doc, 'lxml')
@@ -60,7 +60,7 @@ class ZimuzuSubSearcher(HTMLSubSearcher):
         return result
 
     def _parse_detailpage_html(self, doc):
-        """ 解析字幕详情页面
+        """ Parse Subtitle details page.
         """
         soup = bs4.BeautifulSoup(doc, 'lxml')
         a = soup.select('.subtitle-links > a')
@@ -70,7 +70,7 @@ class ZimuzuSubSearcher(HTMLSubSearcher):
         return ''
 
     def _parse_downloadpage_html(self, doc):
-        """ 解析下载页面，返回下载链接
+        """ Parse download page and return download link.
         """
         soup = bs4.BeautifulSoup(doc, 'lxml')
         a = soup.select('.download-box > a.btn-click')
@@ -99,7 +99,7 @@ class ZimuzuSubSearcher(HTMLSubSearcher):
         return result
 
     def _get_subinfo_list(self, keyword):
-        """根据关键词搜索，返回字幕信息列表
+        """Returns a list of title information based on keyword search.
         """
         res = self.session.get(self.API_URL, params={'keyword': keyword, 'type': 'subtitle'})
         doc = res.content
@@ -108,7 +108,7 @@ class ZimuzuSubSearcher(HTMLSubSearcher):
         return subinfo_list
 
     def _visit_detailpage(self, detailpage_link):
-        """访问字幕详情页面，解析出下载页面的地址
+        """Access the title details page to resolve the address of the download page.
         """
         res = self.session.get(detailpage_link, headers={'Referer': self.referer})
         self.referer = res.url
@@ -118,7 +118,7 @@ class ZimuzuSubSearcher(HTMLSubSearcher):
 
     def _visit_downloadpage(self, downloadpage_link):
         """
-        该页面使用Vue动态渲染，通过请求API获取字幕URL
+        This page uses Vue dynamic rendering to get captions from the request API url
         """
         res = self.session.get(downloadpage_link, headers={'Referer': self.referer})
         self.referer = res.url
