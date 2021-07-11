@@ -197,9 +197,9 @@ class SubFinder(object):
         self.path = path
 
     def start(self):
-        """ SubFinder 入口，开始函数
+        """ SubFinder Start function
         """
-        self.logger.info('开始')
+        self.logger.info('Start')
         videofiles = list(self._filter_path(self.path))
         l = len(videofiles)
         if l > 1 and self.keyword:
@@ -209,11 +209,11 @@ class SubFinder(object):
             self._history[f] = []
             self.pool.spawn(self._download, f)
         self.pool.join()
-        self.logger.info('='*20 + '下载完成' + '='*20)
+        self.logger.info('='*20 + 'Download complete' + '='*20)
         for v, subs in self._history.items():
             basename = os.path.basename(v)
             self.logger.info(
-                '{}: 下载 {} 个字幕'.format(basename, len(subs)))
+                '{}: {} subtitles downloaded'.format(basename, len(subs)))
 
     def done(self):
         pass
