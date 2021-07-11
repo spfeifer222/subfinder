@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-""" 解压压缩包，支持zip, rar
+""" Decompression package，supported: zip, rar
 """
 import os
 import sys
