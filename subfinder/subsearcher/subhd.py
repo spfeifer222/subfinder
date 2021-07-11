@@ -6,7 +6,7 @@ from .subsearcher import HTMLSubSearcher, SubInfo
 
 
 class SubHDSubSearcher(HTMLSubSearcher):
-    """ SubHD 字幕搜索器(https://subhd.tv)
+    """ SubHD Subtitle Search Utility (https://subhd.tv)
     """
     SUPPORT_LANGUAGES = ['zh_chs', 'zh_cht', 'en', 'zh_en']
     SUPPORT_EXTS = ['ass', 'srt']
@@ -40,32 +40,32 @@ class SubHDSubSearcher(HTMLSubSearcher):
             if not div_title:
                 break
             a = div_title.a
-            # 字幕标题
+            # subtitle title
             subinfo['title'] = a.get('title').strip()
-            # 链接
+            # subtitle link
             subinfo['link'] = a.get('href').strip()
 
             div_format = div_title.find_next_siblings('div', limit=1)
             if not div_format:
                 break
             div_format = div_format[0]
-            # 语言
+            # language
             format_str = ' '.join(div_format.strings)
             for l1, l2 in self.LANGUAGES_MAP.items():
                 if l1 in format_str:
                     subinfo['languages'].append(l2)
-            # 格式
+            # format
             for ext in self.SUPPORT_EXTS:
                 if ext in format_str or ext.upper() in format_str:
                     subinfo['exts'].append(ext)
-            # 下载次数
+            # number of downloadable files
             div_download = div_format.find_next_siblings('div', class_='pt-3')
             if not div_download:
                 break
             div_download = div_download[0]
             fa_download = div_download.find('i', class_='fa-download')
             dl_str = fa_download.next_sibling
-            dl_str = dl_str.replace('次', '')
+            dl_str = dl_str.replace('次', '')  # 'times' not translated, it's a Chinese page
             subinfo['download_count'] = int(dl_str)
             subinfo_list.append(subinfo)
         return subinfo_list
@@ -108,7 +108,7 @@ class SubHDSubSearcher(HTMLSubSearcher):
         if data['success']:
             download_link = data['url']
         else:
-            self.subfinder.logger.info('遇到验证码, 尝试通过字幕预览下载, 如果失败请尝试手动下载: {}'.format(detailpage_link))
+            self.subfinder.logger.info('Encounter issues while try to get Subtitle download link. Please, try to download manually: {}'.format(detailpage_link))
         return download_link
     
     def _visit_downloadpage(self, downloadpage_link):
@@ -130,7 +130,7 @@ class SubHDSubSearcher(HTMLSubSearcher):
         files = []
         for a in  a_list:
             s = a.string.strip()
-            if s == '预览':
+            if s == '预览':  # 'Preview'
                 sid = a.get('data-sid')
                 fname = a.get('data-fname')
                 ext = pathlib.PurePath(fname).suffix
