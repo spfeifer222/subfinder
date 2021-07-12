@@ -10,7 +10,7 @@ import logging
 import mimetypes
 import traceback
 import requests
-from .subsearcher import get_subsearcher, exceptions
+from .subsearcher.subsearcher import get_subsearcher, exceptions
 
 
 class Pool(object):
