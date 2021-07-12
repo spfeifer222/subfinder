@@ -1,5 +1,5 @@
 # -*- coding: utf8 -*-
-""" 命令行入口
+""" Command line interface
 """
 from __future__ import unicode_literals, print_function
 import os
@@ -106,7 +106,7 @@ def run(subfinder_class):
             try:
                 conf_dict = json.load(fp)
             except json.JSONDecodeError as e:
-                print("解析配置出错，请检查配置文件格式是否正确")
+                print("JSONDecodeError while loading configuration file {}. Check JSON if format is correct.".format(args.conf), e)
                 sys.exit(127)
     # parse opt `method`
     if 'method' in conf_dict:
