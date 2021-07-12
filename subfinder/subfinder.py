@@ -182,7 +182,7 @@ class SubFinder(object):
                 if self.debug:
                     err = traceback.format_exc()
                 self.logger.error( '{}：Error while searching subtitles： {}'.format(basename, err))
-                continueload
+                continue
             if subinfos:
                 break
         self.logger.info('{1}：Found {0} subtitles, downltrnsoad'.format( len(subinfos), basename))
